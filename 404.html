@@ -1,0 +1,107 @@
+<!doctype html>
+
+<html lang="en">
+    <head>
+        <meta name="author" content="Kenneth Lien">
+        <title id="title">Redirecting...</title>
+        <script>
+            function unhide() {
+                var element = document.getElementById("await");
+                element.classList.remove("hide");
+                document.title = "404 Error";
+            }
+            function isUrl(url) {
+                return /^https?:\/\/(www\.)?[-a-zA-Z0-9@:%._\+~#=]{2,256}\.[a-z]{2,24}\b([-a-zA-Z0-9@:%_\+.~#?&//=]*)+$/.test(url);
+            }
+            function redirect() {
+                var location = window.location;
+                var shortlink = location.pathname.split("/")[1];
+                var xhr = new XMLHttpRequest();
+                xhr.onload = function () {
+                    try {                    
+                        var issues = JSON.parse(xhr.response);
+                        var i;
+                        for (i = 0; i < issues.length; i++) {
+                            if (shortlink.localeCompare(issues[i].title) == 0) {
+                                console.log(issues[i].body);
+                                var url = document.createElement("a");
+                                url.setAttribute("href", issues[i].body);
+                       
+                                if (isUrl(issues[i].body) && url.hostname != location.hostname) {
+                                    location.replace(issues[i].body);
+                                    return;
+                                } else {
+                                    break;
+                                }
+                            }
+                        }
+                    } catch (e) {
+                    }
+                    unhide();
+                };
+                xhr.open("GET", "https://api.github.com/repos/kennethlien/links/issues");
+                xhr.send();
+            }
+            redirect();
+        </script>
+        <link href="styles.css" rel="stylesheet">
+        <link href="https://fonts.gstatic.com rel="preconnect"">
+        <link href="https://fonts.googleapis.com/css2?family=Inter:wght@700&display=swap" rel="stylesheet">
+        <link href="https://fonts.googleapis.com/css2?family=EB+Garamond:wght@400;500&display=swap" rel="stylesheet">   
+    </head>
+    <body>
+        <div id="await" class="hide">
+            <div class="header">
+                <div class="spread row container">
+                    <div class="row">
+                        <div class="v-center">
+                            <canvas id="marble" class="v-center" data-js-darken-top data-transition-in></canvas>
+                        </div>
+                        <a href="https://kennethlien.com"><h1 class="v-center">&nbsp;Kenneth Lien</h1></a>
+                    </div>               
+                    <div class="row">
+                        <h3 class="v-center">kennethlien@berkeley.edu</h3>
+                    </div>      
+                </div>
+            </div>
+            <div class="container">
+                <section>
+                    <h2>Two roads diverged in a wood.</h2>            
+                    <p class="grey">
+                        And sorry I could not travel both <br>
+                        And be one traveler, long I stood <br>
+                        And looked down one as far as I could <br>
+                        To where it bent in the undergrowth; <br>
+                        <br>
+                        ... <br>
+                        <br>
+                        Two roads diverged in a wood, and I— <br>
+                        I took the one less traveled by, <br>
+                        And that has made all the difference. <br>
+                    </p>
+                    <p>
+                        <script>
+                            var sites = [
+                                'https://xkcd.com/',
+                                'https://findtheinvisiblecow.com/',
+                                'http://beesbeesbees.com/',
+                                'http://endless.horse/',
+                                'https://pointerpointer.com/',
+                                'https://oracleofbacon.org/',
+                                'http://emuspin.com/'
+                            ];
+                        
+                            function randomSite() {
+                                var i = parseInt(Math.random() * sites.length);
+                                location.href = sites[i];
+                            }
+                        </script>
+                        Seems this page doesn't exist yet. If you're looking for me, click <a class="a" href="https://kennethlien.com">here</a>. 
+                        Otherwise, in the words of Robert Frost, take the <a class="a" href="#" onclick="randomSite();">road less traveled</a>.
+                    </p>
+                </section>          
+            </div>
+        </div>
+    </body>
+    <script src="marble.js"></script>
+</html>

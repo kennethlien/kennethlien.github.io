@@ -1,0 +1,74 @@
+<!doctype html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <title>Kenneth Lien</title>
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="author" content="Kenneth Lien">
+        <meta name="description" content="Nice to meet ya!">
+        <meta name="keywords" content="Kenneth Lien, Software Engineer, Berkeley">
+        <link rel="shortcut icon" type="image/ico" href="./favicon.ico"/>
+        <link href="styles.css" rel="stylesheet">
+        <link href="https://fonts.gstatic.com rel="preconnect"">
+        <link href="https://fonts.googleapis.com/css2?family=Inter:wght@700&display=swap" rel="stylesheet">
+        <link href="https://fonts.googleapis.com/css2?family=EB+Garamond:wght@400;500&display=swap" rel="stylesheet">     
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.0/css/all.min.css">
+    </head>
+    <body>
+        <div class="header">
+            <div class="spread row container">
+                <div class="row">
+                    <div class="v-center">
+                        <canvas id="marble" class="v-center" data-js-darken-top data-transition-in></canvas>
+                    </div>
+                    <a href="https://kennethlien.com"><h1 class="v-center">&nbsp;Kenneth Lien</h1></a>
+                </div>
+                
+                <div class="row">
+                    <h3 id="email" class="v-center large-email" onclick="return copy()">kennethlien@berkeley.edu</h3>
+                </div>      
+            </div>
+        </div>
+        <div class="container">
+            <section>
+                <p>
+                    <a class="a" href="https://www.youtube.com/watch?v=rEq1Z0bjdwc">Hello there.</a> Let's make this a little meet-and-greet.<br>
+                </p>
+                <p>
+                    I'm Kenneth, and I make painfully awkward introductions.
+                    I enjoy <a class="a" href="https://www.strava.com/athletes/71135091">running</a> off my shin splints, 
+                    drooling over <a class="a" href="https://www.carthrottle.com/post/why-the-answer-is-always-miata/">Miatas</a>,
+                    and religiously listening to <a class="a" href="https://www.youtube.com/channel/UC4eYXhJI4-7wSWc8UNRwD4A">Tiny Desk</a> concerts.
+                </p>
+                <p>
+                    Now it's your turn. 
+                    Let's get in touch and grab a <a class="a" href="https://www.philzcoffee.com/">coffee</a>, or tea, or literally anything.
+                    Open up your <a class="a" href="mailto:kennethlien@berkeley.edu">favorite email app</a>, or click my email at the top to copy, and say hello!
+                </p>
+          
+            </section>
+            <div style="min-height: 3em;"></div>
+            <section class="h-center">
+                <a href="mailto:kennethlien@berkeley.edu"><i class="fa fa-envelope"></i></a>
+                <a href="https://github.com/kennethlien"><i class="fab fa-github"></i></a>
+                <a href="https://www.linkedin.com/in/lienkenneth/"><i class="fab fa-linkedin"></i></a>
+                <a href="ssh.txt"><i class="fas fa-fingerprint"></i></a>  
+            </section>
+        </div>
+        <input type="text" value="kennethlien@berkeley.edu" id="holder" style="position: absolute; left: -100em;">
+    </body>
+    <script src="marble.js"></script>
+    <script>
+        async function copy() {
+          var copyText = document.getElementById("holder");
+          copyText.select();
+          copyText.setSelectionRange(0, 99999);
+          document.execCommand("copy");
+  
+          var email = document.getElementById("email");
+          email.innerHTML = "Copied :D";
+          await new Promise(resolve => setTimeout(resolve, 1500));
+          email.innerHTML = "kennethlien@berkeley.edu";
+        }
+    </script>
+</html>
