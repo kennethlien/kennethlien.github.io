@@ -1,0 +1,62 @@
+<!doctype html>
+
+<html lang="en">
+
+<head>
+  <meta name="author" content="Kenneth Lien">
+  <title id="title">Redirecting...</title>
+  <script>
+    function unhide() {
+      var element = document.getElementById("await");
+      element.classList.remove("hide");
+      document.title = "404 Error";
+    }
+    function isUrl(url) {
+      return /^https?:\/\/(www\.)?[-a-zA-Z0-9@:%._\+~#=]{2,256}\.[a-z]{2,24}\b([-a-zA-Z0-9@:%_\+.~#?&//=]*)+$/.test(url);
+    }
+    function redirect() {
+      var location = window.location;
+      var shortlink = location.pathname.split("/")[1];
+      var xhr = new XMLHttpRequest();
+      xhr.onload = function () {
+        try {
+          var issues = JSON.parse(xhr.response);
+          var i;
+          for (i = 0; i < issues.length; i++) {
+            if (shortlink.localeCompare(issues[i].title) == 0) {
+              console.log(issues[i].body);
+              var url = document.createElement("a");
+              url.setAttribute("href", issues[i].body);
+
+              if (isUrl(issues[i].body) && url.hostname != location.hostname) {
+                location.replace(issues[i].body);
+                return;
+              } else {
+                break;
+              }
+            }
+          }
+        } catch (e) {
+        }
+        unhide();
+      };
+      xhr.open("GET", "https://api.github.com/repos/kennethlien/links/issues");
+      xhr.send();
+    }
+    redirect();
+  </script>
+  <link href="style.css" rel="stylesheet">
+</head>
+
+<body>
+  <div id="await" class="hide">
+    <div class="container">
+      <p>
+        404 Error! It doesn't seem like this link exists, let's go <a class="a"
+          href="https://kennethlien.com">somewhere</a> that does.
+      </p>
+    </div>
+  </div>
+</body>
+
+</html>

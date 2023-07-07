@@ -1,0 +1,51 @@
+@font-face {
+  font-family: Repro;
+  src: url("assets/repro.woff2") format("woff2");
+}
+
+html {
+  display: grid;
+  height: 100vh;
+  overflow: hidden;
+}
+
+body {
+  place-self: center;
+  height: fit-content;
+  max-width: 30em;
+  padding: 0 3em 3em 3em
+}
+
+* {
+  font-family: 'Repro';
+  font: 1em Repro, sans-serif;
+  font-feature-settings: "ss02" 1, "ss13" 1;
+}
+
+a,
+a:link,
+a:visited {
+  background: linear-gradient(180deg, black, black);
+  background-position: 0 100%;
+  background-repeat: repeat-x;
+  background-size: 4px 10%;
+  color: black;
+  text-decoration: none;
+  transition: background-size 0.4s;
+}
+
+a:hover {
+  background-size: 4px 100%;
+  text-decoration: none;
+  color: white;
+}
+
+#marble {
+  height: 1.75em;
+  width: 1.75em;
+  border-radius: 1000px;
+  --gradient-color-1: #ef008f;
+  --gradient-color-2: #6ec3f4;
+  --gradient-color-3: #7038ff;
+  --gradient-color-4: #ffba27;
+}
