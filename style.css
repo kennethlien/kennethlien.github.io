@@ -1,8 +1,3 @@
-@font-face {
-  font-family: Repro;
-  src: url("assets/repro.woff2") format("woff2");
-}
-
 html {
   display: grid;
   height: 100vh;
@@ -38,14 +33,4 @@ a:hover {
   background-size: 4px 100%;
   text-decoration: none;
   color: white;
-}
-
-#marble {
-  height: 1.75em;
-  width: 1.75em;
-  border-radius: 1000px;
-  --gradient-color-1: #ef008f;
-  --gradient-color-2: #6ec3f4;
-  --gradient-color-3: #7038ff;
-  --gradient-color-4: #ffba27;
 }
