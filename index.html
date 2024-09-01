@@ -46,7 +46,9 @@
 
         function getPositionalColor(x, y) {
             const hue = Math.random() * 360;
-            return `hsl(${hue}, 100%, 50%)`;
+            const saturation = Math.random() * 50 + 50;
+            const lightness = Math.random() * 100;
+            return `hsl(${hue}, ${lightness}%, ${lightness}%)`;
         }
 
         function drawGrid() {
