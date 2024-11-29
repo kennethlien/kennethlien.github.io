@@ -5,36 +5,93 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Kenneth Lien</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            darkMode: 'class'
+        }
+    </script>
     <style>
-        body {
-            margin: 0;
-            overflow: hidden;
-            background-color: #1a202c;
+        /* Light mode link styles */
+        .light a,
+        .light a:link,
+        .light a:visited {
+            background: linear-gradient(180deg, black, black);
+            background-position: 0 100%;
+            background-repeat: repeat-x;
+            background-size: 4px 10%;
+            color: black;
+            text-decoration: none;
+            transition: background-size 0.4s;
         }
 
-        #game-canvas {
-            display: block;
+        .light a:hover {
+            background-size: 4px 100%;
+            text-decoration: none;
+            color: white;
+        }
+
+        /* Dark mode link styles */
+        .dark a,
+        .dark a:link,
+        .dark a:visited {
+            background: linear-gradient(180deg, white, white);
+            background-position: 0 100%;
+            background-repeat: repeat-x;
+            background-size: 4px 10%;
+            color: white;
+            text-decoration: none;
+            transition: background-size 0.4s;
+        }
+
+        .dark a:hover {
+            background-size: 4px 100%;
+            text-decoration: none;
+            color: black;
         }
     </style>
 </head>
 
-<body>
-    <canvas id="game-canvas"></canvas>
+<body class="m-0 overflow-hidden transition-colors duration-300 dark:bg-black">
+    <div id="container" class="max-w-sm mx-auto pt-20 max-sm:px-4">
+        <canvas id="game-canvas" class="block w-full"></canvas>
+        <div class="pt-8 space-y-4 dark:text-white">
+            <p><a href="https://www.youtube.com/watch?v=rEq1Z0bjdwc">Hello there</a>. I'm Kenneth.</p>
+            <p>I'm a programmer with a love/hate relationship with computers. I write software to <s>create</s> solve
+                interesting problems and build cool things.</p>
+            <p><a href="https://www.linkedin.com/in/lienk/">Get in touch</a>.</p>
+        </div>
+    </div>
     <script>
+        if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
+            document.documentElement.classList.add('dark');
+        } else {
+            document.documentElement.classList.add('light');
+        }
+
+        window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', e => {
+            if (e.matches) {
+                document.documentElement.classList.remove('light');
+                document.documentElement.classList.add('dark');
+            } else {
+                document.documentElement.classList.remove('dark');
+                document.documentElement.classList.add('light');
+            }
+        });
+
+        const container = document.getElementById('container');
         const canvas = document.getElementById('game-canvas');
         const ctx = canvas.getContext('2d');
 
         const CELL_SIZE = 4;
-        const WIDTH = Math.floor(window.innerWidth / CELL_SIZE);
-        const HEIGHT = Math.floor(window.innerHeight / CELL_SIZE);
+        const WIDTH = Math.floor(container.clientWidth / CELL_SIZE);
+        const HEIGHT = Math.floor(WIDTH * 0.2);
 
         canvas.width = WIDTH * CELL_SIZE;
         canvas.height = HEIGHT * CELL_SIZE;
 
         const ALIVE = 1;
         const DEAD = 0;
-        const JUST_BORN = 2;
-        const JUST_DIED = 3;
 
         let grid = generateRandomGrid();
 
@@ -44,25 +101,16 @@
             );
         }
 
-        function getPositionalColor(x, y) {
-            const hue = Math.random() * 360;
-            const saturation = Math.random() * 50 + 50;
-            const lightness = Math.random() * 100;
-            return `hsl(${hue}, ${lightness}%, ${lightness}%)`;
-        }
-
         function drawGrid() {
             ctx.clearRect(0, 0, canvas.width, canvas.height);
+            const isDark = document.documentElement.classList.contains('dark');
+
             for (let y = 0; y < HEIGHT; y++) {
                 for (let x = 0; x < WIDTH; x++) {
                     if (grid[y][x] === ALIVE) {
-                        ctx.fillStyle = 'white';
-                    } else if (grid[y][x] === JUST_BORN) {
-                        ctx.fillStyle = getPositionalColor(x, y);
-                    } else if (grid[y][x] === JUST_DIED) {
-                        ctx.fillStyle = getPositionalColor(x, y);
+                        ctx.fillStyle = isDark ? "white" : "black";
                     } else {
-                        continue;
+                        ctx.fillStyle = isDark ? "black" : "white";
                     }
                     ctx.fillRect(x * CELL_SIZE, y * CELL_SIZE, CELL_SIZE, CELL_SIZE);
                 }
@@ -78,16 +126,16 @@
                             if (dx === 0 && dy === 0) continue;
                             const newY = (y + dy + HEIGHT) % HEIGHT;
                             const newX = (x + dx + WIDTH) % WIDTH;
-                            if (grid[newY][newX] === ALIVE || grid[newY][newX] === JUST_BORN) {
+                            if (grid[newY][newX] === ALIVE) {
                                 neighbors++;
                             }
                         }
                     }
-                    if (cell === ALIVE || cell === JUST_BORN) {
-                        if (neighbors < 2 || neighbors > 3) return JUST_DIED;
+                    if (cell === ALIVE) {
+                        if (neighbors < 2 || neighbors > 3) return DEAD;
                         return ALIVE;
                     } else {
-                        if (neighbors === 3) return JUST_BORN;
+                        if (neighbors === 3) return ALIVE;
                         return DEAD;
                     }
                 })
@@ -95,9 +143,10 @@
             grid = newGrid;
         }
 
-        function gameLoop() {
+        async function gameLoop() {
             updateGrid();
             drawGrid();
+            await new Promise(resolve => setTimeout(resolve, 50));
             requestAnimationFrame(gameLoop);
         }
 
