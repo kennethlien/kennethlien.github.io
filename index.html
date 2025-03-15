@@ -11,6 +11,9 @@
             darkMode: 'class'
         }
     </script>
+    <link rel="icon" href="favicon.ico" type="image/x-icon">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <style>
         /* Light mode link styles */
         .light a,
@@ -53,14 +56,15 @@
 </head>
 
 <body class="m-0 overflow-hidden transition-colors duration-300 dark:bg-black">
-    <div id="container" class="max-w-sm mx-auto pt-20 max-sm:px-4">
+    <div id="container" class="max-w-screen-md mx-auto pt-20 max-sm:px-4">
         <canvas id="game-canvas" class="block w-full"></canvas>
         <div class="pt-8 space-y-4 dark:text-white">
             <p><a href="https://www.youtube.com/watch?v=rEq1Z0bjdwc">Hello there</a>. I'm Kenneth.</p>
-            <p>I have a love/hate relationship with computers, though it's mostly love. I write software to
-                <s>create</s> solve
-                interesting problems and build <a href="https://claude.ai">cool things</a>.
+            <p>I'm a programmer in a love/hate relationship with computers, although it's mostly love. I write software
+                to <s>create</s> solve interesting
+                problems and build <a href="https://claude.ai">cool things</a>.</p>
             </p>
+            <br />
             <p><a href="https://www.linkedin.com/in/lienk/">Get in touch</a>.</p>
         </div>
     </div>
@@ -85,7 +89,7 @@
         const canvas = document.getElementById('game-canvas');
         const ctx = canvas.getContext('2d');
 
-        const CELL_SIZE = 4;
+        const CELL_SIZE = 5;
         const WIDTH = Math.floor(container.clientWidth / CELL_SIZE);
         const HEIGHT = Math.floor(WIDTH * 0.2);
 
